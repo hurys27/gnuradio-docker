@@ -1,0 +1,75 @@
+FROM gnuradio-totem
+
+#install cppunit 
+USER root
+RUN apt update && apt install -y libcppunit-dev
+
+#install nano
+RUN apt install -y nano
+
+#install snap
+RUN apt install -y geany
+
+#install hackrf
+RUN apt install -y hackrf libhackrf-dev
+
+# Install AISTX
+RUN cd && \
+	git clone https://github.com/zhudsonSM/aistx.git && \
+	cd aistx && \
+	git checkout 804b6542f24c7005c8e777f31f5ca5b353acd7fc && \
+	mkdir build && \
+	cd build && \
+	cmake -DCMAKE_INSTALL_PREFIX=/usr .. && \
+	make clean && \
+	make install
+	
+# Install GR-ADSB
+RUN cd && \
+	git clone https://github.com/mhostetter/gr-adsb && \
+	cd gr-adsb && \
+	git checkout 50e062988c3caa80d932a9752b16fc11ad68c6e3 && \
+	mkdir build && \
+	cd build && \
+	cmake -DCMAKE_INSTALL_PREFIX=/usr .. && \
+	make clean && \
+	make install
+	
+# Instal SoapyHackrf
+RUN cd && \
+	git clone https://github.com/pothosware/SoapyHackRF.git && \
+	cd SoapyHackRF && \
+	git checkout 8d2e7beebb4c451609cb0cee236fa4d20a0e28b1 && \
+	mkdir build && \
+	cd build && \
+	cmake -DCMAKE_INSTALL_PREFIX=/usr .. && \
+	make clean && \
+	make install
+	
+
+# Instal SoapyPluto
+RUN cd && \
+	git clone https://github.com/pothosware/SoapyPlutoSDR.git && \
+	cd SoapyPlutoSDR && \
+	git checkout a2431282fc258c692374ebfed507ac558ae29b15 && \
+	mkdir build && \
+	cd build && \
+	cmake -DCMAKE_INSTALL_PREFIX=/usr .. && \
+	make clean && \
+	make install
+	
+# Instal Osmocom
+RUN cd && \
+	git clone git://git.osmocom.org/gr-osmosdr && \
+	cd gr-osmosdr && \
+	git checkout 9b386707d81ac8117a6c26011a757db40aa505ea && \
+	mkdir build && \
+	cd build && \
+	cmake -DCMAKE_INSTALL_PREFIX=/usr .. && \
+	make clean && \
+	make install
+	
+
+
+USER gnuradio
+
